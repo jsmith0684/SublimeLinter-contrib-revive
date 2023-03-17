@@ -1,10 +1,18 @@
-from SublimeLinter.lint import Linter  # or NodeLinter, PythonLinter, ComposerLinter, RubyLinter
+from SublimeLinter.lint import (
+    Linter,
+    WARNING,
+    util,
+)
 
 
-class __class__(Linter):
-    cmd = '__cmd__'
-    regex = r''
+class Revive(Linter):
+    cmd = ("revive", "-formatter", "ndjson", "${args}", "${file}")
+    regex = (
+        r".+\"Severity\":\"((?P<error>error)|(?P<warning>warning))\".+?\"Failure\":\"(?P<message>.*?)\".+?"
+        '"Offset":(?P<col>\d+).+?"Line":(?P<line>\d+)'
+    )
     multiline = False
-    defaults = {
-        'selector': 'source.python'
-    }
+    default_type = WARNING
+    tempfile_suffix = "go"
+    error_stream = util.STREAM_STDOUT
+    defaults = {"selector": "source.go"}
