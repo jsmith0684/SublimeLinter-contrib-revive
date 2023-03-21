@@ -1,18 +1,16 @@
 from SublimeLinter.lint import (
     Linter,
     WARNING,
-    util,
 )
 import json
 
 
 class Revive(Linter):
-    cmd = ("revive", "-formatter", "ndjson", "${args}", "${file}")
+    cmd = ("revive", "-formatter", "ndjson", "${args}")
     regex = r".*"
     multiline = False
     default_type = WARNING
     tempfile_suffix = "go"
-    error_stream = util.STREAM_STDOUT
     defaults = {"selector": "source.go"}
 
     def split_match(self, match):
@@ -24,8 +22,5 @@ class Revive(Linter):
         result["end_line"] = js.get("Position").get("End").get("Line") - 1
         result["message"] = js.get("Failure")
         sev = js.get("Severity")
-        if sev == "warning":
-            result["warning"] = sev
-        else:
-            result["error"] = sev
+        result["error_type"] = "warning" if sev == "warning" else "error"
         return result
