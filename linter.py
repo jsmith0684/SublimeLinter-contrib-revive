@@ -1,8 +1,6 @@
 from SublimeLinter.lint import (
     Linter,
     WARNING,
-    util,
-    STREAM_STDOUT,
 )
 import json
 
