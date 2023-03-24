@@ -6,7 +6,7 @@ import json
 
 
 class Revive(Linter):
-    cmd = ("revive", "-formatter", "ndjson", "${args}")
+    cmd = ("revive", "-formatter", "ndjson", "${args}", "${temp_file}")
     regex = r".*"
     multiline = False
     default_type = WARNING
