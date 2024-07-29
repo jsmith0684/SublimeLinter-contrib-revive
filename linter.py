@@ -15,7 +15,7 @@ class Revive(Linter):
 
     def split_match(self, match):
         result = super().split_match(match)
-        if not len(match):
+        if not len(match.group()):
             return None
         js = json.loads(match.group(0))
         result["line"] = js.get("Position").get("Start").get("Line") - 1
